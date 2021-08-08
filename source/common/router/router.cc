@@ -345,7 +345,7 @@ void Filter::chargeUpstreamCode(Http::Code code,
       {{Http::Headers::get().Status, std::to_string(response_status_code)}});
   chargeUpstreamCode(response_status_code, *fake_response_headers, upstream_host, dropped);
 }
-
+// http.filter.router 进行处理的入口函数
 Http::FilterHeadersStatus Filter::decodeHeaders(Http::RequestHeaderMap& headers, bool end_stream) {
   downstream_headers_ = &headers;
 
@@ -631,7 +631,7 @@ Http::FilterHeadersStatus Filter::decodeHeaders(Http::RequestHeaderMap& headers,
 
   // Hang onto the modify_headers function for later use in handling upstream responses.
   modify_headers_ = modify_headers;
-
+  // UpstreamRequest即进行路由的核心类
   UpstreamRequestPtr upstream_request =
       std::make_unique<UpstreamRequest>(*this, std::move(generic_conn_pool));
   LinkedList::moveIntoList(std::move(upstream_request), upstream_requests_);

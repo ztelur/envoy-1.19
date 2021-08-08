@@ -16,16 +16,17 @@ namespace NetworkFilters {
 namespace DubboProxy {
 
 constexpr uint32_t BufferLimit = UINT32_MAX;
-
+// readFilter 
 ConnectionManager::ConnectionManager(Config& config, Random::RandomGenerator& random_generator,
                                      TimeSource& time_system)
     : config_(config), time_system_(time_system), stats_(config_.stats()),
       random_generator_(random_generator), protocol_(config.createProtocol()),
       decoder_(std::make_unique<RequestDecoder>(*protocol_, *this)) {}
-
+// 读数据入口，这是整个proxy进行处理的入口
 Network::FilterStatus ConnectionManager::onData(Buffer::Instance& data, bool end_stream) {
   ENVOY_LOG(trace, "dubbo: read {} bytes", data.length());
   request_buffer_.move(data);
+  // 进行分发
   dispatch();
 
   if (end_stream) {
@@ -117,6 +118,7 @@ void ConnectionManager::dispatch() {
 
   try {
     bool underflow = false;
+    // 等待数据足够完成序列化
     while (!underflow) {
       decoder_->onData(request_buffer_, underflow);
     }

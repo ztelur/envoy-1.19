@@ -11,7 +11,7 @@ namespace Extensions {
 namespace NetworkFilters {
 namespace DubboProxy {
 namespace Router {
-
+// 启动时系统会调用该接口，由Factory构建出我们的Filter。
 DubboFilters::FilterFactoryCb RouterFilterConfig::createFilterFactoryFromProtoTyped(
     const envoy::extensions::filters::network::dubbo_proxy::router::v3::Router&, const std::string&,
     Server::Configuration::FactoryContext& context) {
@@ -22,6 +22,7 @@ DubboFilters::FilterFactoryCb RouterFilterConfig::createFilterFactoryFromProtoTy
 
 /**
  * Static registration for the router filter. @see RegisterFactory.
+ * 将factory注册到envoy的上下文环境中
  */
 REGISTER_FACTORY(RouterFilterConfig, DubboFilters::NamedDubboFilterConfigFactory);
 

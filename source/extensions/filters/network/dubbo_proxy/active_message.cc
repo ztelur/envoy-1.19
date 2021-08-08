@@ -239,7 +239,7 @@ ActiveMessage::commonDecodePrefix(ActiveMessageDecoderFilter* filter,
   }
   return std::next(filter->entry());
 }
-
+// dubbo proxy 的操作filter
 void ActiveMessage::onStreamDecoded(MessageMetadataSharedPtr metadata, ContextSharedPtr ctx) {
   parent_.stats().request_decoding_success_.inc();
 

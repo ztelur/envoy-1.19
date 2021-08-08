@@ -328,8 +328,9 @@ void ConnectionManagerImpl::createCodec(Buffer::Instance& data) {
     break;
   }
 }
-
+// 接收到请求
 Network::FilterStatus ConnectionManagerImpl::onData(Buffer::Instance& data, bool) {
+  // 创建数据解析器。
   if (!codec_) {
     // Http3 codec should have been instantiated by now.
     createCodec(data);
@@ -338,7 +339,7 @@ Network::FilterStatus ConnectionManagerImpl::onData(Buffer::Instance& data, bool
   bool redispatch;
   do {
     redispatch = false;
-
+    // 数据进行解析
     const Status status = codec_->dispatch(data);
 
     if (isBufferFloodError(status) || isInboundFramesWithEmptyPayloadError(status)) {
@@ -1117,7 +1118,7 @@ void ConnectionManagerImpl::ActiveStream::traceRequest() {
     }
   }
 }
-
+// decodeData, 交给 filter_manager 调用 filter 去完成decodeData的作用
 void ConnectionManagerImpl::ActiveStream::decodeData(Buffer::Instance& data, bool end_stream) {
   ScopeTrackerScopeState scope(this,
                                connection_manager_.read_callbacks_->connection().dispatcher());

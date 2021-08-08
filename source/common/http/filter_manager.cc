@@ -591,7 +591,7 @@ void FilterManager::decodeHeaders(ActiveStreamDecoderFilter* filter, RequestHead
     disarmRequestTimeout();
   }
 }
-
+// HCM 会调用 filter manager 去进行encode 
 void FilterManager::decodeData(ActiveStreamDecoderFilter* filter, Buffer::Instance& data,
                                bool end_stream,
                                FilterIterationStartState filter_iteration_start_state) {
@@ -615,6 +615,7 @@ void FilterManager::decodeData(ActiveStreamDecoderFilter* filter, Buffer::Instan
       continue;
     }
     // If the filter pointed by entry has stopped for all frame types, return now.
+    // 调用filter对应的onDate进行处理
     if (handleDataIfStopAll(**entry, data, state_.decoder_filters_streaming_)) {
       return;
     }

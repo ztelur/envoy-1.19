@@ -37,6 +37,7 @@ public:
 };
 
 // class ActiveMessagePtr;
+// ConnectionManager 是 ConnectionCallbacks & ReadFilter & RequestDecoderCallbacks 三合一了，它也实现了上述三个接口
 class ConnectionManager : public Network::ReadFilter,
                           public Network::ConnectionCallbacks,
                           public RequestDecoderCallbacks,

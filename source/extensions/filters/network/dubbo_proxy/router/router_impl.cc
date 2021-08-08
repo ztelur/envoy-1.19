@@ -22,7 +22,7 @@ void Router::onDestroy() {
 void Router::setDecoderFilterCallbacks(DubboFilters::DecoderFilterCallbacks& callbacks) {
   callbacks_ = &callbacks;
 }
-
+// 进行转发
 FilterStatus Router::onMessageDecoded(MessageMetadataSharedPtr metadata, ContextSharedPtr ctx) {
   ASSERT(metadata->hasInvocationInfo());
   const auto& invocation = metadata->invocationInfo();
